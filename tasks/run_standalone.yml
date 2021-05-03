@@ -1,0 +1,82 @@
+---
+- name: Ensure unzip package to unpack scripts exporter archive
+  apt:
+    name: unzip
+    state: present
+
+- name: Get scripts exporter
+  become: yes
+  become_user: root
+  get_url:
+    url: "https://dl.influxdata.com/telegraf/releases/telegraf-{{ scripts_exporter_version }}_static_{{ scripts_exporter_arch }}.tar.gz"
+    dest: "{{ scripts_exporter_config_dir }}/sources/scripts_exporter-{{ scripts_exporter_version }}.{{ scripts_exporter_arch }}.tar.gz"
+    mode: 0644
+    owner: root
+    group: root
+
+- name: Unpack scripts exporter
+  become: yes
+  become_user: root
+  unarchive:
+    remote_src: yes
+    src: "{{ scripts_exporter_config_dir }}/sources/scripts_exporter-{{ scripts_exporter_version }}.{{ scripts_exporter_arch }}.tar.gz"
+    dest: "{{ scripts_exporter_config_dir }}/sources/{{ scripts_exporter_version }}"
+    creates: "{{ scripts_exporter_config_dir }}/sources/{{ scripts_exporter_version }}/telegraf-{{ scripts_exporter_version }}/usr/bin/telegraf"
+
+- name: Copy exporter to PATH
+  become: yes
+  become_user: root
+  copy:
+    remote_src: yes
+    src:  "{{ scripts_exporter_config_dir }}/sources/{{ scripts_exporter_version }}/telegraf-{{ scripts_exporter_version }}/usr/bin//telegraf"
+    dest: /usr/local/bin/telegraf
+    mode: 0755
+    owner: root
+    group: root
+  notify: Restart scripts exporter
+
+- name: Copy scripts exporter config file
+  template:
+    src: telegraf.conf.j2
+    dest: "{{ scripts_exporter_config_dir }}/telegraf.conf"
+    mode: 0644
+    owner: root
+    group: root
+  notify: Restart scripts exporter
+
+- name: Copy scripts to conf dir
+  copy:
+    remote_src: no
+    src: "scripts/{{ item.filename }}"
+    dest: "{{ scripts_exporter_scripts_dir }}/"
+    mode: 0755
+    owner: root
+    group: root
+  with_items: "{{ scripts_exporter_configs }}"
+  notify: Restart scripts exporter
+
+- name: Create scripts exporter user
+  user:
+    name: "{{ scripts_exporter_user }}"
+    comment: "scripts exporter user"
+    shell: /usr/sbin/nologin
+
+- name: Ensure scripts exporter systemd unit
+  become: yes
+  become_user: root
+  template:
+    src: systemd.service.j2
+    dest: "/etc/systemd/system/scripts-exporter.service"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart scripts exporter
+
+- name: Enable systemd service
+  become: yes
+  become_user: root
+  systemd:
+    name: "scripts-exporter.service"
+    enabled: yes
+    daemon_reload: yes
+    state: started

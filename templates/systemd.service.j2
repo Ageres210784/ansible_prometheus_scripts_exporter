@@ -1,0 +1,15 @@
+[Unit]
+Description=Scripts exporter service
+After=network.target
+
+[Service]
+User={{ scripts_exporter_user }}
+Group={{ scripts_exporter_user }}
+ExecStart=/usr/local/bin/telegraf --config {{ scripts_exporter_config_dir }}/telegraf.conf
+ExecStop=/bin/kill -s TERM $MAINPID
+PrivateTmp=true
+Restart=on-failure
+NoNewPrivileges=yes
+
+[Install]
+WantedBy=multi-user.target

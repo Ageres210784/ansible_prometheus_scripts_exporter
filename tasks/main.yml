@@ -1,0 +1,18 @@
+---
+- name: Ensure config dir
+  become: yes
+  become_user: root
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: 0755
+    owner: root
+    group: root
+  with_items:
+    - "{{ scripts_exporter_config_dir }}"
+    - "{{ scripts_exporter_config_dir }}/sources"
+    - "{{ scripts_exporter_config_dir }}/sources/{{ scripts_exporter_version }}"
+    - "{{ scripts_exporter_scripts_dir }}"
+
+- name: Include standalone tasks
+  import_tasks: run_standalone.yml

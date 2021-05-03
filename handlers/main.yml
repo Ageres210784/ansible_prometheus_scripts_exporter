@@ -1,0 +1,5 @@
+---
+- name: Restart scripts exporter
+  service:
+    name: scripts-exporter.service
+    state: restarted

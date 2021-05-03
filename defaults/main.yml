@@ -1,0 +1,16 @@
+---
+scripts_exporter_config_dir: /var/lib/scripts_exporter
+scripts_exporter_scripts_dir: "{{ scripts_exporter_config_dir }}/scripts"
+scripts_exporter_listen_host: 127.0.0.1
+scripts_exporter_host_port: 9273
+scripts_exporter_version: '1.18.1'
+scripts_exporter_arch: linux_amd64
+scripts_exporter_metrics_path: metrics
+scripts_exporter_user: scripts_exporter
+scripts_exporter_configs:
+#- name: test script
+#    filename: "test.sh"
+#    script_params: "test"
+#    data_format: json
+#    name_override: "test_metric"
+
