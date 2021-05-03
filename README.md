@@ -1,9 +1,9 @@
 # sbog/prometheus_scripts_exporter
 
 [![Build Status](https://travis-ci.com/sorrowless/ansible_prometheus_scripts_exporter.svg?branch=master)](https://travis-ci.com/sorrowless/ansible_prometheus_scripts_exporter)
-[![Ansible Role](https://img.shields.io/ansible/role/54627)](https://galaxy.ansible.com/sorrowless/prometheus_scripts_exporter)
-[![Ansible Quality Score](https://img.shields.io/ansible/quality/54627)](https://galaxy.ansible.com/sorrowless/prometheus_scripts_exporter)
-[![Ansible Role](https://img.shields.io/ansible/role/d/54627)](https://galaxy.ansible.com/sorrowless/prometheus_scripts_exporter)
+[![Ansible Role](https://img.shields.io/ansible/role/54630)](https://galaxy.ansible.com/sorrowless/prometheus_scripts_exporter)
+[![Ansible Quality Score](https://img.shields.io/ansible/quality/54630)](https://galaxy.ansible.com/sorrowless/prometheus_scripts_exporter)
+[![Ansible Role](https://img.shields.io/ansible/role/d/54630)](https://galaxy.ansible.com/sorrowless/prometheus_scripts_exporter)
 [![GitHub](https://img.shields.io/github/license/sorrowless/ansible_prometheus_scripts_exporter)](https://github.com/sorrowless/ansible_prometheus_scripts_exporter/blob/master/LICENSE)
 
 An Ansible role which installs and configures [Prometheus scripts_exporter](https://docs.influxdata.com/telegraf/) on Linux
