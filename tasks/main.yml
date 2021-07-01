@@ -14,5 +14,8 @@
     - "{{ scripts_exporter_config_dir }}/sources/{{ scripts_exporter_version }}"
     - "{{ scripts_exporter_scripts_dir }}"
 
+- name: Install dependencies
+  import_tasks: install_dependencies.yml
+
 - name: Include standalone tasks
   import_tasks: run_standalone.yml

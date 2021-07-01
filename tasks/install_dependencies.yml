@@ -1,0 +1,6 @@
+---
+- name: Install cfscrape
+  pip:
+    name: cfscrape
+  with_items: "{{ scripts_exporter_configs }}"
+  when: item.filename == "check_geth_sync.py"
