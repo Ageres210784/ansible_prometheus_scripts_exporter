@@ -6,7 +6,7 @@ import sys
 
 usage = """
 Usage:
-    check-bitcoin-sync.py <blockchainApiUrl> <localBtcUrl>
+    check-bitcoin-sync.py <blockchainApiUrl> <localBtcUrl> [<rpcuser> <rpcpassword>]
 
 where:
     blockchainApiUrl is an URL to blockchain.info
@@ -23,7 +23,12 @@ local_btc_url = sys.argv[2]
 payload = '{"jsonrpc":"1.0","id":"curltext","method":"getblockcount","params":[]}'  # noqa
 headers = {'Content-Type': 'text/plain'}
 try:
-    r = requests.post(local_btc_url, data=payload, headers=headers)
+    if len(sys.argv) < 4:
+        r = requests.post(local_btc_url, data=payload, headers=headers)
+    else:
+        rpcuser = sys.argv[3]
+        rpcpassword = sys.argv[4]
+        r = requests.post(local_btc_url, data=payload, headers=headers, auth=(rpcuser,rpcpassword))
     local_bnum = int(r.json()['result'])
 except:
     local_bnum = -1
